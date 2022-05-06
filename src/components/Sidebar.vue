@@ -1,26 +1,31 @@
 <template>
-  <sidebar id="sidebar">
+  <div id="sidebar">
       <Avatar/>
     <div class="icons">
         <router-link to="/note/1" title="笔记"> <i class="iconfont icon-note"></i></router-link>
         <router-link to="/notebooks" title="笔记本"><i class="iconfont icon-notebook"></i></router-link>
         <router-link to="/trash/1" title="回收站"><i class="iconfont icon-trash"></i></router-link>
     </div>
-    <div class="logout" @click="onlogout">
-        <i class="iconfont icon-logout"></i>
+    <div class="logout" >
+        <i class="iconfont icon-logout" @click="onlogout"></i>
     </div>
-  </sidebar>
+  </div>
 </template>
 
 <script>
 import Avatar from "./Avatar.vue";
+import Auth  from "@/apis/auth"
 export default {
-components:{Avatar},
 methods:{
     onlogout(){
-        console.log('1');
+        console.log('logout');
+        Auth.logout()
+         .then(data=>{
+           console.log(data)
+         })
     }
-}
+},
+components:{Avatar},
 };
 </script>
 

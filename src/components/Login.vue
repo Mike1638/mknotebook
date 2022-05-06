@@ -31,6 +31,10 @@
 </template>
 
 <script>
+import Auth  from "@/apis/auth"
+Auth.getinfo().then(data=>{
+  console.log(data);
+})
 export default {
   data(){
     return{
@@ -72,6 +76,9 @@ export default {
     }
     this.register.isError = false
     this.register.notice = ''
+    Auth.register({username:this.register.username,password:this.register.password}).then(data=>{
+    console.log(data);
+    })
     console.log(`start register..., username: ${this.register.username} , password: ${this.register.password}`)
     },
     onLogin(){
@@ -87,6 +94,9 @@ export default {
        }
        this.login.isError = false
        this.login.notice = ''
+       Auth.login({username:this.login.username,password:this.login.password}).then(data=>{
+       console.log(data);
+       })
        console.log(`start login..., username: ${this.login.username} , password: ${this.login.password}`)      
      }
   }
