@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import Auth from '@/apis/auth'
 export default {
   name: "Login",
   data() {
@@ -12,6 +13,13 @@ export default {
       msg: "This is NoteDetail page",
     };
   },
+  created(){
+    Auth.getinfo().then(data=>{
+      if(!data.isLogin){
+        this.$router.push({path:'/login'})
+      }
+    })
+  }
 };
 </script>
 

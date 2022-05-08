@@ -1,6 +1,7 @@
 import axios from 'axios'
+import BaseURLconfig from './config-baseURL'
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
-axios.defaults.baseURL = 'https://note-server.hunger-valley.com'
+axios.defaults.baseURL = BaseURLconfig.baseURL
 axios.defaults.withCredentials = true
 export default  function request(url,type = 'GET',data = {}){
     return new Promise((resolve,reject)=>{
@@ -24,7 +25,7 @@ export default  function request(url,type = 'GET',data = {}){
               reject(res.data)
           }
       }).catch(err=>{
-          reject({msg:'网络异常'})
+          reject({msg:'密码错误'})
       })
     })
 }
