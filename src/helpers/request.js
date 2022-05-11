@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { Message } from 'element-ui'
 import BaseURLconfig from './config-baseURL'
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 axios.defaults.baseURL = BaseURLconfig.baseURL
@@ -18,14 +19,14 @@ export default  function request(url,type = 'GET',data = {}){
           console.log(data)
           option.data  = data
       }
-      axios(option).then(res=>{
-          if(res.status === 200){
-              resolve(res.data)
-          }else{
-              reject(res.data)
-          }
+      axios(option).then(res => {
+        if(res.status === 200) {
+          resolve(res.data)
+        }else {
+          reject(res.data)
+        }
       }).catch(err=>{
-          reject({msg:'密码错误'})
+        reject({msg: '网络异常'})
       })
     })
 }

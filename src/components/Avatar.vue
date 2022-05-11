@@ -7,7 +7,7 @@ import Bus from "@/helpers/bus"
 export default{
    data(){
        return {
-       username:'123123123'
+       username:'无'
        }
    },
    created(){

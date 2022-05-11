@@ -1,6 +1,7 @@
 <template>
   <div id="login">
     <h1>{{ msg }}</h1>
+    <h1>notebookId{{$route.query.notebookId}}</h1>
   </div>
 </template>
 
