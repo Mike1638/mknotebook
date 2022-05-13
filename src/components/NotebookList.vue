@@ -26,15 +26,23 @@
 import Auth from '@/apis/auth'
 import Notebooks from '@/apis/notebooks'
 import friendlyDate from '@/helpers/util'
+import {mapState,mapActions,mapGetters} from 'vuex'
 
 export default {
   data(){
     return{
-      notebooksList:[]
+      
     }
   },
   name: "Login",
   methods:{
+    ...mapActions([
+    'getNotebooks', 
+    'addNotebook', 
+    'updateNotebook', 
+    'deleteNotebook', 
+    'checkLogin'
+    ]),
     onCreate(){
        this.$prompt('请输入笔记本名', '新建笔记本', {
           confirmButtonText: '确定',
@@ -42,16 +50,19 @@ export default {
           inputPattern:/^.{1,30}$/,
           inputErrorMessage: '名称不能为空,且不超过30个字符',
         }).then(({ value }) => {
-           return  Notebooks.addNotebook({title:value})
-        }).then(res=>{
-           console.log(res);
-           res.data.friendlyCreateAt = friendlyDate(res.data.createdAt) 
-           this.notebooksList.unshift(res.data)
-          this.$message({
-            type: 'success',
-            message: '笔记本名为: ' + res.data.title
-          });
+          this.addNotebook({title:value})
+            // return Notebooks.addNotebook({title:value})
         })
+        
+        // .then(res=>{
+        //    console.log(res);
+        //    res.data.friendlyCreateAt = friendlyDate(res.data.createdAt) 
+        //    this.notebooksList.unshift(res.data)
+        //   this.$message({
+        //     type: 'success',
+        //     message: '笔记本名为: ' + res.data.title
+        //   });
+        // })
     },
     onEdit(notebook){
        let title  = ''
@@ -63,19 +74,23 @@ export default {
           inputValue:notebook.title,
         }).then(({ value }) => {
           title = value
-         return  Notebooks.updateNotebook(notebook.id,{title})
-        }).then(res=>{
-          notebook.title = title
-          this.$message({
-            type: 'success',
-            message: '笔记本名修改为: ' + title
-          });
-        }).catch(err=>{
-          this.$message({
-            type: 'error',
-            message: '取消修改'
-          });
+          this.updateNotebook({notebookId:notebook.id,title:title})
+        //  return  Notebooks.updateNotebook(notebook.id,{title})
         })
+        
+        
+        // .then(res=>{
+        //   notebook.title = title
+        //   this.$message({
+        //     type: 'success',
+        //     message: '笔记本名修改为: ' + title
+        //   });
+        // }).catch(err=>{
+        //   this.$message({
+        //     type: 'error',
+        //     message: '取消修改'
+        //   });
+        // })
     },
     onDelete(notebook){
       this.$confirm('确认删除笔记, 是否继续?', '删除笔记本', {
@@ -83,26 +98,36 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(()=>{
-            return  Notebooks.deleteNotebook(notebook.id)
-        }).then(res => {
-          let index = this.notebooksList.indexOf(notebook)
-          this.notebooksList.splice(index,1)
-          this.$message({
-            type: 'success',
-            message: res.msg
-          });
+          this.deleteNotebook({notebookId:notebook.id})
+            // return  Notebooks.deleteNotebook(notebook.id)
         })
+        
+        // .then(res => {
+        //   let index = this.notebooksList.indexOf(notebook)
+        //   this.notebooksList.splice(index,1)
+        //   this.$message({
+        //     type: 'success',
+        //     message: res.msg
+        //   });
+        // })
     }
   },
   created(){
-    Auth.getinfo().then(data=>{
-      if(!data.isLogin){
-        this.$router.push({path:'/login'})
-      }
-    })
-    Notebooks.getAll().then(res=>{this.notebooksList = res.data;console.log(res)})
+    this.checkLogin({ path:'/login' })
+    // Auth.getinfo().then(data=>{
+    //   if(!data.isLogin){
+    //     this.$router.push({path:'/login'})
+    //   }
+    // })
+    
+    // Notebooks.getAll().then(res=>{this.notebooksList = res.data;console.log(res)})
+   this.$store.dispatch('getNotebooks') 
+   console.log( ...mapGetters(['notebooksList']))
 
   },
+  computed:{
+    ...mapGetters(['notebooksList'])
+  }
 };
 </script>
 

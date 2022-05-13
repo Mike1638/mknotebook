@@ -1,6 +1,5 @@
 import request from "@/helpers/request";
 import friendlyDate from "@/helpers/util";
-import { baseURL } from "../helpers/config-baseURL";
 
 const URL = {
   GET: "/notebooks",
@@ -18,6 +17,7 @@ export default {
             .sort((a, b) => (a.createAt > b.createAt ? 1 : -1))
             .forEach(item => {
               item.friendlyCreateAt = friendlyDate(item.createdAt);
+              item.friendlyUpdateAt = friendlyDate(item.updatedAt);
             });
           resolve(res);
         })
@@ -28,7 +28,17 @@ export default {
     //    return  request(URL.GET)
   },
   addNotebook({ title = "" } = { title: "" }) {
-    return request(URL.ADD, "POST", { title });
+    return new Promise((resolve,reject)=>{
+       request(URL.ADD, "POST", { title })
+       .then(res=>{
+      res.data.friendlyCreateAt = friendlyDate(res.data.createdAt)
+      res.data.friendlyUpdateAt = friendlyDate(res.data.updatedAt)
+      resolve(res)
+       })
+       .catch(err=>{
+         reject(err)
+       })
+    })
   },
   updateNotebook(notebookId, { title = "" } = { title: "" }) {
     return request(URL.UPDATE.replace(":id", notebookId), "PATCH", { title });

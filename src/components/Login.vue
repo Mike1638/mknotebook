@@ -33,9 +33,8 @@
 <script>
 import Auth  from "@/apis/auth"
 import Bus from "@/helpers/bus"
-Auth.getinfo().then(data=>{
-  console.log(data);
-})
+import {mapGetters,mapActions} from 'vuex'
+
 export default {
   data(){
     return{
@@ -56,6 +55,11 @@ export default {
     }
   },
   methods:{
+    ...mapActions({
+      loginUser:'login',
+      registerUser:'register'
+    }
+    ),
     showRegister(){
       this.isShowRegister = true
       this.isShowLogin = false
@@ -75,16 +79,26 @@ export default {
          this.register.notice = '密码长度为6~16个字符'
          return
     }
-   
-    Auth.register({username:this.register.username,password:this.register.password})
-    .then(data=>{
-    this.register.isError = false
-    this.register.notice = ''
-    this.$router.push({path:'notebooks'})
-    }).catch(data=>{
-      this.register.isError = true
-      this.register.notice = '用户名重复'
-    })
+     
+     this.registerUser({username:this.register.username,password:this.register.password})
+     .then(()=>{
+       this.register.idError = false
+       this.register.notice = ''
+       this.$router.push({path:'notebooks'})
+     })
+     .catch(()=>{
+       this.register.isError = true
+       this.register.notice = '用户名重复'
+     })
+    // Auth.register({username:this.register.username,password:this.register.password})
+    // .then(data=>{
+    // this.register.isError = false
+    // this.register.notice = ''
+    // this.$router.push({path:'notebooks'})
+    // }).catch(data=>{
+    //   this.register.isError = true
+    //   this.register.notice = '用户名重复'
+    // })
     },
     onLogin(){
        if(!/^[\w\u4e00-\u9fa5]{3,15}$/.test(this.login.username)){
@@ -97,17 +111,30 @@ export default {
          this.login.notice = '密码长度为6~16个字符'
          return
        }
-       Auth.login({username:this.login.username,password:this.login.password})
-       .then(data=>{
+    
+      this.loginUser({username:this.login.username,password:this.login.password})
+      .then(()=>{
        this.login.isError = false
        this.login.notice = ''
-       Bus.$emit('getinfo',{username:this.login.username})
-       this.$router.push({path:'notebooks'}) 
-       })
-       .catch(data=>{
-       this.login.isError = true
-       this.login.notice = data.msg
-       })
+       this.$router.push({path:'notebooks'})
+       console.log('xxxxxxxx'); 
+      })
+      .catch(data=>{
+        console.log('yyyyy');
+        this.login.isError = true
+        this.login.notice = data.msg
+      })    
+      // Auth.login({username:this.login.username,password:this.login.password})
+      //  .then(data=>{
+      //  this.login.isError = false
+      //  this.login.notice = ''
+      //  Bus.$emit('getinfo',{username:this.login.username})
+      //  this.$router.push({path:'notebooks'}) 
+      //  })
+      //  .catch(data=>{
+      //  this.login.isError = true
+      //  this.login.notice = data.msg
+      //  })
      }
   }
 }
