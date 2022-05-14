@@ -3,7 +3,7 @@
     <NoteSidebar :notes.sync="notes" />
     <div class="note-detail">
       <div class="note-empty" v-show="!currentNote.id">
-        {{ currentNote }} {{ notes }}请选择标签
+       请选择标签
       </div>
       <div class="note-detail-ct" v-show="currentNote.id">
         <div class="note-bar">

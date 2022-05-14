@@ -59,6 +59,15 @@ export default {
       .then(() => {
         this.setCurrentNote({ currentNoteId: this.$route.query.noteId });
         // this.$store.commit('setCurrentNote',{currentNoteId:this.$route.query.notebookId})
+          if(this.currentNote.id != this.$route.query.noteId){
+            this.$router.replace({
+              path:'/note',
+              query:{
+                noteId:this.currentNote.id,
+                notebookId:this.currentBook.id
+              }
+            })
+          }
       });
 
     //   Notebooks.getAll()
@@ -74,7 +83,7 @@ export default {
     //  })
   },
   computed: {
-    ...mapGetters(["notes", "currentBook", "notebooksList"]),
+    ...mapGetters(["notes", "currentBook", "notebooksList","currentNote"]),
   },
   methods: {
     ...mapMutations(["setCurrentBook", "setCurrentNote"]),
@@ -87,13 +96,29 @@ export default {
         // this.setCurrentBook({currentBookId:notebookId})
         this.$store.commit("setCurrentBook", { currentBookId: notebookId });
         // this.currentBook =  this.notebooksList.find(item=>item.id == notebookId)  || {}
-        this.getNotes({ notebookId });
+       
         // Notes.getAll({notebookId}).then(res=>{
         // console.log('xxxxx')
         // console.log(res);
         // this.notes = res.data
         // Bus.$emit('update:notes',this.notes)
         // })
+    
+        this.getNotes({ notebookId })
+        .then(()=>{
+          this.setCurrentNote();
+          console.log(this.currentNote.id);
+          console.log(this.$route.query.noteId);
+          if(this.currentNote.id != this.$route.query.noteId){
+            this.$router.replace({
+              path:'/note',
+              query:{
+                noteId:this.currentNote.id,
+                notebookId:this.currentBook.id
+              }
+            })
+          }
+        })
       }
     },
     onaddNote() {

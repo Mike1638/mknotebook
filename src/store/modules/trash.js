@@ -1,15 +1,20 @@
 import Trash from "@/apis/trash"
-
+import { Message } from "element-ui"
 const state ={
   trashNotes:null,
-  currentTrashNoteId:null
+  currentTrashNoteId:null,
 }
 const getters = {
    trashNotes:state=> state.trashNotes || [],
    currentTrashNote :(state,getters) =>{
        if(!state.currentTrashNoteId) return getters.trashNotes[0] || {}
        return state.trashNotes.find(note=>note.id == state.currentTrashNoteId) || {}
-
+    },
+    belongTo:(state,getters,rootState,rootGetters)=>{
+       console.log(rootGetters.notebooksList);
+       console.log(getters.currentTrashNote.notebookId);
+       let nootbook = rootGetters.notebooksList.find(notebook=>notebook.id == getters.currentTrashNote.notebookId) || []
+       return nootbook.title  || ''
     }
 }
 
@@ -39,12 +44,14 @@ const actions={
         return Trash.deleteNote({noteId:payload.noteId})
         .then(res=>{
         commit("deleteTrashNote",{noteId:payload.noteId})
+        Message.success(res.msg)
         })
      },
      revertTrashNote({commit},payload){
          return Trash.revertNote({noteId:payload.noteId})
          .then(res=>{
              commit("deleteTrashNote",{noteId:payload.noteId})
+             Message.success(res.msg)
          })
      }
 }

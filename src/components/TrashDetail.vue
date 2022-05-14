@@ -44,58 +44,35 @@ export default {
   name: "Login",
   data() {
     return {
-      // currentTrashNote: {
-      //   id: 22,
-      //   title: "我的笔记",
-      //   content: "## hello",
-      //   friendlyCreateAt: "2小时",
-      //   friendlyUpdateAt: "2小时",
-      // },
-      belongTo:'我的笔记',
-      // trashNotes:[
-      //   {
-      //   id: 22,
-      //   title: "我的笔记",
-      //   content: "## hello",
-      //   friendlyCreateAt: "2小时",
-      //   friendlyUpdateAt: "2小时",
-      // },
-      // {
-      //   id: 23,
-      //   title: "我的笔记",
-      //   content: "## hello",
-      //   friendlyCreateAt: "2小时",
-      //   friendlyUpdateAt: "2小时",
-      // },
-      // {
-      //   id: 24,
-      //   title: "我的笔记",
-      //   content: "## hello",
-      //   friendlyCreateAt: "2小时",
-      //   friendlyUpdateAt: "2小时",
-      // },
-      // {
-      //   id: 25,
-      //   title: "我的笔记",
-      //   content: "## hello",
-      //   friendlyCreateAt: "2小时",
-      //   friendlyUpdateAt: "2小时",
-      // }
-      // ]
+      
     };
   },
   created() {
-    Auth.getinfo().then((data) => {
-      if (!data.isLogin) {
-        this.$router.push({ path: "/login" });
-      }
-    });
+    this.checkLogin({ path: "/login" })
+    // Auth.getinfo().then((data) => {
+    //   if (!data.isLogin) {
+    //     this.$router.push({ path: "/login" });
+    //   }
+    // });
+    this.getNotebooks()
     this.getTrashNotes()
+    .then(()=>{
+      if(this.currentTrashNote.id != this.$route.query.noteId){
+        this.$router.replace({
+          path:"/trash",
+          query:{
+            noteId : this.currentTrashNote.id
+          }
+        })
+      }
+    })
+    
   },
   computed:{
     ...mapGetters([
       'trashNotes',
-      'currentTrashNote'
+      'currentTrashNote',
+      'belongTo',
     ]),
     compiledMarkdown(){
         return md.render(this.currentTrashNote.content || "");
@@ -104,21 +81,25 @@ export default {
   methods:{
     ...mapActions([
       'getTrashNotes',
+      'deleteTrashNote',
+      'revertTrashNote',
+      'getNotebooks',
+      'checkLogin'
     ]),
     ...mapMutations([
       'setcurrentTrashNote',
     ]),
     onRevert(){
+      this.revertTrashNote({noteId:this.$route.query.noteId})
       console.log('OnRevert');
-      console.log(this.trashNotes);
     },
     onDelete(){
+      this.deleteTrashNote({noteId:this.$route.query.noteId})
       console.log('onDelete');
     }
   },
   beforeRouteUpdate(to, from, next) {
-    console.log(to.query.noteId, from.query.noteId, next);
-    this.setcurrentTrashNote({noteId:to.query.noteId})
+    this.setcurrentTrashNote({currentTrashNoteId:to.query.noteId})
     next();
   },
 };

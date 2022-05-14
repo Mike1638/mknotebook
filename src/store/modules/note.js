@@ -40,7 +40,7 @@ const mutations = {
   deleteNote(state, payload) {
     state.notes = state.notes.filter(note => note.id != payload.noteId);
   },
-  setCurrentNote(state, payload) {
+  setCurrentNote(state, payload={}) {
     state.currentNoteId = payload.currentNoteId;
   }
 };
