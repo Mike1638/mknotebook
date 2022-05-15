@@ -99,7 +99,22 @@ export default {
       this.deleteNote({ noteId: this.currentNote.id })
         .then((res) => {
           // this.notes.splice(this.notes.indexOf(this.currentNote),1)
-          this.$router.replace({ path: "/note" });
+          console.log(this.$route.query.notebookId);
+          console.log(this.notes.length !=0);
+          if(this.notes.length !=0){
+            this.$router.replace({
+            path: "/note",
+            query:{
+              noteId:this.notes[0].id,
+              notebookId :this.$route.query.notebookId,
+            }
+           });
+          }else{
+              console.log('xxxxxxxxxxxxxxx');
+            this.$router.replace({
+            path: "/note",
+           })
+          }
         })
         .catch((err) => {
           Message.error(err.msg);

@@ -38,11 +38,11 @@ const actions = {
       if(state.user != null) return Promise.resolve()
       return Auth.getinfo()
       .then(res=>{
-        console.log(res.data);
-        console.log(payload);
+        // console.log(res.data);
+        // console.log(payload);
         if(!res.isLogin){
           console.log('jump')
-          router.push(payload)
+          payload &&  router.push(payload)
          }else{
           commit('setUser',{user:res.data})
         }

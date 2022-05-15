@@ -21,7 +21,6 @@ export default {
         //     }
         // })
       this.setUser()
-      console.log('wocao');
    },
    methods:{
      ...mapActions({

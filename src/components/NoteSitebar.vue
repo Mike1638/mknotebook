@@ -25,9 +25,7 @@
     </div>
     <ul class="notes">
       <li v-for="(note, index) in notes" :key="index">
-        <router-link
-          :to="`/note?noteId=${note.id}&notebookId=${currentBook.id}`"
-        >
+        <router-link :to="`/note?noteId=${note.id}&notebookId=${currentBook.id}`">
           <span class="date">{{ note.friendlyUpdateAt }}</span>
           <span class="title">{{ note.title }}</span>
         </router-link>
@@ -125,7 +123,26 @@ export default {
       this.addNote(
         { notebookId: this.currentBook.id },
         { title: "", content: "" }
-      );
+      )
+
+      // console.log(this.$route.query.notebookId);
+      //   this.getNotes({ notebookId:this.$route.query.notebookId})
+      //   .then(()=>{
+      //     this.setCurrentNote();
+      //     console.log(this.currentNote.id);
+      //     console.log(this.$route.query.noteId);
+      //     // if(this.currentNote.id != this.$route.query.noteId){
+      //       this.$router.replace({
+      //         path:'/note',
+      //         query:{
+      //           noteId:this.currentNote.id,
+      //           notebookId:this.currentBook.id
+      //         }
+      //       })
+      //     // }
+      //   })
+
+
       // Notes.addNotes({notebookId:this.currentBook.id},{title:'',content:''})
       // .then(res=>{
       //     console.log(res)

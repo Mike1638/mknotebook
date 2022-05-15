@@ -60,7 +60,6 @@ const actions = {
     )
       .then(res => {
         commit("addNote", { note: res.data });
-        Message.success(res.msg);
       })
       .catch();
   },
