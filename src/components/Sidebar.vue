@@ -35,7 +35,7 @@ components:{Avatar},
    position: relative;
    width: 56px;
    text-align: center;
-   background-color: #2c333c;
+   background-color: #0c4c7d;
 }
 .icons {
   margin-top: 15px;

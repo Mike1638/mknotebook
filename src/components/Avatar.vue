@@ -48,7 +48,7 @@ height: 30px;
 text-align: center;
 line-height: 32px;
 border-radius: 50%;
-background: #f2b81c;
+background: #213f75;
 color: #fff;
 text-shadow: 1px 0 1px #795c19;
 font-weight: bold;
