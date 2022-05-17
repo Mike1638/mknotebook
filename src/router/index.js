@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Login from '@/components/Login'
-import NotebookList from '@/components/NotebookList'
-import TrashDetail from '@/components/TrashDetail'
-import NoteDetail from '@/components/NoteDetail'
+// import Login from '@/components/Login'
+// import NotebookList from '@/components/NotebookList'
+// import TrashDetail from '@/components/TrashDetail'
+// import NoteDetail from '@/components/NoteDetail'
 
 Vue.use(Router)
 
@@ -11,28 +11,24 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'NoteDetail',
-      component: NoteDetail
+      alias:'/notebooks',
+      name: 'notebooks',
+      component: ()=>import('@/components/NotebookList')
     },
     {
       path: '/login',
       name: 'Login',
-      component: Login
+      component: ()=>import('@/components/Login')
     },
     {
       path: '/note',
       name: 'NoteDetail',
-      component: NoteDetail
+      component: ()=>import('@/components/NoteDetail')
     },
     {
       path: '/trash',
       name: 'TrashDetail',
-      component: TrashDetail
+      component: ()=>import('@/components/TrashDetail')
     },
-    {
-      path:'/notebooks',
-      name:'NotebookList',
-      component:NotebookList
-    }
   ]
 })
