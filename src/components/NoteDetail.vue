@@ -2,8 +2,11 @@
   <div id="note" class="detail">
     <NoteSidebar :notes.sync="notes" />
     <div class="note-detail">
-      <div class="note-empty" v-show="!currentNote.id">
-       请选择标签
+      <div class="note-empty" v-if="!currentBook.id">
+       无笔记本无笔记请新建笔记本
+      </div>
+      <div class="note-empty" v-if="!currentNote.id">
+       有笔记本无笔记请添加笔记
       </div>
       <div class="note-detail-ct" v-show="currentNote.id">
         <div class="note-bar">
@@ -63,7 +66,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["notes", "currentNote"]),
+    ...mapGetters(["notes", "currentNote",'currentBook']),
     preview() {
       return md.render(this.currentNote.content || "");
     },
@@ -110,7 +113,6 @@ export default {
             }
            });
           }else{
-              console.log('xxxxxxxxxxxxxxx');
             this.$router.replace({
             path: "/note",
            })

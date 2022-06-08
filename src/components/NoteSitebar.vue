@@ -1,21 +1,13 @@
 <template>
   <div class="note-sidebar">
-    <span class="btn add-note" @click="onaddNote">添加笔记</span>
-    <el-dropdown
-      class="notebook-title"
-      @command="handleCommand"
-      placement="bottom"
-    >
+    <span v-if="currentBook.id" class="btn add-note" @click="onaddNote">添加笔记</span>
+    <span v-if="!currentBook.id" class="notebook-title">暂无笔记</span>
+    <el-dropdown v-if="currentBook.id"  class="notebook-title"  @command="handleCommand"  placement="bottom" >
       <span class="el-dropdown-link">
         {{ currentBook.title }}<i class="iconfont icon-down"></i>
       </span>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item
-          v-for="(item, index) in notebooksList"
-          :key="index"
-          :command="item.id"
-          >{{ item.title }}</el-dropdown-item
-        >
+        <el-dropdown-item v-for="(item, index) in notebooksList"    :key="index"  :command="item.id" >{{ item.title }}</el-dropdown-item   >
         <el-dropdown-item command="trash">回收站</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
@@ -52,7 +44,7 @@ export default {
       .then((res) => {
         this.setCurrentBook({ currentBookId: this.$route.query.notebookId });
         //  this.$store.commit('setCurrentBook',{currentBookId:this.$route.query.notebookId})
-        return this.getNotes({ notebookId: this.currentBook.id });
+        if(this.curBook.id) return this.getNotes({ notebookId: this.currentBook.id });
       })
       .then(() => {
         this.setCurrentNote({ currentNoteId: this.$route.query.noteId });
@@ -66,6 +58,8 @@ export default {
               }
             })
           }
+      }).catch(()=>{
+
       });
 
     //   Notebooks.getAll()
@@ -90,7 +84,7 @@ export default {
       if (notebookId == "trash") {
         this.$router.push("/trash");
       } else {
-        this.$message("click on item " + notebookId);
+        this.$message("切换成功");
         // this.setCurrentBook({currentBookId:notebookId})
         this.$store.commit("setCurrentBook", { currentBookId: notebookId });
         // this.currentBook =  this.notebooksList.find(item=>item.id == notebookId)  || {}
@@ -120,6 +114,7 @@ export default {
       }
     },
     onaddNote() {
+      console.log(this.currentBook.id)
       this.addNote(
         { notebookId: this.currentBook.id },
         { title: "", content: "" }

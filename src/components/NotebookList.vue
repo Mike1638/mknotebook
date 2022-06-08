@@ -1,7 +1,7 @@
 <template>
   <div class="detail" id="notebook-list">
   <header>
-    <el-button type="text" class="btn" @click="onCreate"> <i class="iconfont icon-plus"></i> 新建笔记本</el-button>
+    <a href="#" class="btn" @click.prevent="onCreate"><i class="iconfont icon-plus"></i> 新建笔记本</a>
   </header>
    <main>
      <div class="layout">
@@ -122,7 +122,6 @@ export default {
     
     // Notebooks.getAll().then(res=>{this.notebooksList = res.data;console.log(res)})
    this.$store.dispatch('getNotebooks') 
-   console.log( ...mapGetters(['notebooksList']))
 
   },
   computed:{

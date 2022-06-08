@@ -70,9 +70,7 @@ const actions ={
         commit('deleteNotebook',{notebookId:payload.notebookId})
         Message.success(res.msg)
        })
-       .catch(err=>{
-
-       })
+       
    }
 
 }
