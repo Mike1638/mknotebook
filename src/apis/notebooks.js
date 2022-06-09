@@ -44,6 +44,7 @@ export default {
     return request(URL.UPDATE.replace(":id", notebookId), "PATCH", { title });
   },
   deleteNotebook(notebookId) {
+    console.log('deleteNotebook', notebookId)
     return request(URL.DELETTE.replace(":id", notebookId), "DELETE");
   }
 };

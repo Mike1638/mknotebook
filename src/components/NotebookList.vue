@@ -121,6 +121,8 @@ export default {
     // })
     
     // Notebooks.getAll().then(res=>{this.notebooksList = res.data;console.log(res)})
+
+    console.log('bugbugbug');
    this.$store.dispatch('getNotebooks') 
 
   },

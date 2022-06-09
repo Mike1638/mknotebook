@@ -45,7 +45,7 @@
 </template>
 <script>
 import Auth from "@/apis/auth";
-import NoteSidebar from "./NoteSitebar.vue";
+import NoteSidebar from "./NoteSitebar.vue"; //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 import Bus from "@/helpers/bus";
 import _ from "lodash";
 import Notes from "../apis/notes";
@@ -148,7 +148,7 @@ export default {
     // console.log(this.currentNote);
   },
   beforeRouteUpdate(to, from, next) {
-    // console.log(to.query.noteId, from.query.noteId, next);
+    console.log(to.query.noteId, from.query.noteId, next);
     this.$store.commit("setCurrentNote", { currentNoteId: to.query.noteId });
     // this.currentNote = this.notes.find((item) => item.id == to.query.noteId);
     next();

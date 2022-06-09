@@ -40,13 +40,19 @@ export default {
     };
   },
   created() {
+    console.log('xxxx');
     this.getNotebooks()
-      .then((res) => {
+      .then(() => {
+        console.log(this.$route.query.notebookId );
         this.setCurrentBook({ currentBookId: this.$route.query.notebookId });
         //  this.$store.commit('setCurrentBook',{currentBookId:this.$route.query.notebookId})
-        if(this.curBook.id) return this.getNotes({ notebookId: this.currentBook.id });
+        if(this.currentBook.id) 
+        return this.getNotes({ notebookId: this.currentBook.id });
       })
       .then(() => {
+        console.log(this.$route.query.noteId);
+        console.log(this.currentNote.id);
+        console.log(this.currentBook.id);
         this.setCurrentNote({ currentNoteId: this.$route.query.noteId });
         // this.$store.commit('setCurrentNote',{currentNoteId:this.$route.query.notebookId})
           if(this.currentNote.id != this.$route.query.noteId){
@@ -59,7 +65,7 @@ export default {
             })
           }
       }).catch(()=>{
-
+      console.log('yyyyyy');
       });
 
     //   Notebooks.getAll()

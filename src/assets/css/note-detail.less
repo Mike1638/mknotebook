@@ -49,13 +49,13 @@
   
     .editor {
       height: ~"calc(100% - 70px)";
-      position: relative;
+      display: flex;
     }
     textarea, .preview {
-      position: absolute;
-      width: 74%;
-      height: 92%;
+      flex: 1;
+      height: calc(100vh - 80px);
       padding: 20px;
+      overflow-x: hidden;
     }
   
     textarea {
