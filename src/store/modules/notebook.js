@@ -37,16 +37,12 @@ const mutations = {
     );
   },
   setCurrentBook(state, payload) {
-    console.log('111111')
-    console.log(payload.currentBookId)
     state.currentBookId = payload.currentBookId;
   }
 };
 
 const actions = {
   getNotebooks({ commit, state }) {
-    console.log('cao');
-    console.log(state.notebooksList != null);
     // if (state.notebooksList != null) return Promise.resolve();
     return Notebooks.getAll()
       .then(res => {
@@ -76,9 +72,7 @@ const actions = {
       .catch(err => {});
   },
   deleteNotebook({ commit }, payload) {
-    console.log("deleteNotebook");
     return Notebooks.deleteNotebook(payload.notebookId).then(res => {
-      console.log("res", res);
       commit("deleteNotebook", { notebookId: payload.notebookId });
       Message.success(res.msg);
     });

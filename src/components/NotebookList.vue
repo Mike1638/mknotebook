@@ -23,10 +23,7 @@
 </template>
 
 <script>
-import Auth from '@/apis/auth'
-import Notebooks from '@/apis/notebooks'
-import friendlyDate from '@/helpers/util'
-import {mapState,mapActions,mapGetters} from 'vuex'
+import {mapActions,mapGetters} from 'vuex'
 
 export default {
   data(){
@@ -51,18 +48,7 @@ export default {
           inputErrorMessage: '名称不能为空,且不超过30个字符',
         }).then(({ value }) => {
           this.addNotebook({title:value})
-            // return Notebooks.addNotebook({title:value})
         })
-        
-        // .then(res=>{
-        //    console.log(res);
-        //    res.data.friendlyCreateAt = friendlyDate(res.data.createdAt) 
-        //    this.notebooksList.unshift(res.data)
-        //   this.$message({
-        //     type: 'success',
-        //     message: '笔记本名为: ' + res.data.title
-        //   });
-        // })
     },
     onEdit(notebook){
        let title  = ''
@@ -75,22 +61,7 @@ export default {
         }).then(({ value }) => {
           title = value
           this.updateNotebook({notebookId:notebook.id,title:title})
-        //  return  Notebooks.updateNotebook(notebook.id,{title})
         })
-        
-        
-        // .then(res=>{
-        //   notebook.title = title
-        //   this.$message({
-        //     type: 'success',
-        //     message: '笔记本名修改为: ' + title
-        //   });
-        // }).catch(err=>{
-        //   this.$message({
-        //     type: 'error',
-        //     message: '取消修改'
-        //   });
-        // })
     },
     onDelete(notebook){
       this.$confirm('确认删除笔记, 是否继续?', '删除笔记本', {
@@ -99,32 +70,12 @@ export default {
           type: 'warning'
         }).then(()=>{
           this.deleteNotebook({notebookId:notebook.id})
-            // return  Notebooks.deleteNotebook(notebook.id)
         })
-        
-        // .then(res => {
-        //   let index = this.notebooksList.indexOf(notebook)
-        //   this.notebooksList.splice(index,1)
-        //   this.$message({
-        //     type: 'success',
-        //     message: res.msg
-        //   });
-        // })
     }
   },
   created(){
     this.checkLogin({ path:'/login' })
-    // Auth.getinfo().then(data=>{
-    //   if(!data.isLogin){
-    //     this.$router.push({path:'/login'})
-    //   }
-    // })
-    
-    // Notebooks.getAll().then(res=>{this.notebooksList = res.data;console.log(res)})
-
-    console.log('bugbugbug');
    this.$store.dispatch('getNotebooks') 
-
   },
   computed:{
     ...mapGetters(['notebooksList'])

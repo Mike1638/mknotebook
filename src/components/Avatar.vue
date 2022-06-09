@@ -2,24 +2,13 @@
 <span :title="username">{{slug}}</span>
 </template>
 <script>
-import Auth from '@/apis/auth'
-import Bus from "@/helpers/bus"
 import { mapGetters,mapActions } from 'vuex'
 export default {
    data(){
        return {
-      //  username:'无'
        }
    },
    created(){
-      //   Bus.$on('getinfo', user => {
-      //   this.username = user.username
-      // })
-        // Auth.getinfo().then(res=>{
-        //     if(res.isLogin){
-        //         this.username  = res.data.username
-        //     }
-        // })
       this.setUser()
    },
    methods:{
@@ -32,10 +21,6 @@ export default {
       'username',
       'slug'
      ]),
-  //  slug(){
-  //      return this.username.charAt(0)
-  //   }
-        
     },
 }
 </script>

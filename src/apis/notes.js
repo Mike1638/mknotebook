@@ -12,7 +12,6 @@ export  default {
     return  new Promise((resolve,reject)=>{
         request(URL.get.replace(':notebookId',notebookId))
         .then(res=>{
-            console.log(res)
             res.data.sort((a,b)=>a.updatedAt < b.updatedAt ?  1 : -1)
             .forEach(item=>{
                 item.friendlyUpdateAt = friendlyDate(item.updatedAt)

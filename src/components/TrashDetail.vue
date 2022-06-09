@@ -36,9 +36,8 @@
 </template>
 
 <script>
-import Auth from "@/apis/auth";
 import Markdown from "markdown-it";
-import {mapState,mapGetters,mapMutations,mapActions} from 'vuex'
+import {mapGetters,mapMutations,mapActions} from 'vuex'
 let md = new Markdown()
 export default {
   name: "Login",
@@ -49,11 +48,6 @@ export default {
   },
   created() {
     this.checkLogin({ path: "/login" })
-    // Auth.getinfo().then((data) => {
-    //   if (!data.isLogin) {
-    //     this.$router.push({ path: "/login" });
-    //   }
-    // });
     this.getNotebooks()
     this.getTrashNotes()
     .then(()=>{

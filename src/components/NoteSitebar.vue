@@ -27,34 +27,17 @@
 </template>
 
 <script>
-import Notebooks from "@/apis/notebooks";
-import Notes from "@/apis/notes";
-import Bus from "../helpers/bus";
-import { mapState, mapActions, mapGetters, mapMutations } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 export default {
-  data() {
-    return {
-      //  notes:[],
-      //  notebooks:[],
-      //  currentBook:{}
-    };
-  },
   created() {
-    console.log('xxxx');
     this.getNotebooks()
       .then(() => {
-        console.log(this.$route.query.notebookId );
         this.setCurrentBook({ currentBookId: this.$route.query.notebookId });
-        //  this.$store.commit('setCurrentBook',{currentBookId:this.$route.query.notebookId})
         if(this.currentBook.id) 
         return this.getNotes({ notebookId: this.currentBook.id });
       })
       .then(() => {
-        console.log(this.$route.query.noteId);
-        console.log(this.currentNote.id);
-        console.log(this.currentBook.id);
         this.setCurrentNote({ currentNoteId: this.$route.query.noteId });
-        // this.$store.commit('setCurrentNote',{currentNoteId:this.$route.query.notebookId})
           if(this.currentNote.id != this.$route.query.noteId){
             this.$router.replace({
               path:'/note',
@@ -65,20 +48,7 @@ export default {
             })
           }
       }).catch(()=>{
-      console.log('yyyyyy');
       });
-
-    //   Notebooks.getAll()
-    //   .then(res=>{
-    //      this.notebooks = res.data
-    //      this.currentBook =  this.notebooks.find(item=>item.id == this.$route.query.notebookId)  || this.notebooks[0]  || {}
-    //      Notes.getAll({notebookId:this.currentBook.id}).then(res=>{
-    //         console.log(res)
-    //         this.notes = res.data
-    //         this.$emit('update:notes',this.notes)
-    //         Bus.$emit('update:notes',this.notes)
-    //     })
-    //  })
   },
   computed: {
     ...mapGetters(["notes", "currentBook", "notebooksList","currentNote"]),
@@ -91,22 +61,10 @@ export default {
         this.$router.push("/trash");
       } else {
         this.$message("切换成功");
-        // this.setCurrentBook({currentBookId:notebookId})
         this.$store.commit("setCurrentBook", { currentBookId: notebookId });
-        // this.currentBook =  this.notebooksList.find(item=>item.id == notebookId)  || {}
-       
-        // Notes.getAll({notebookId}).then(res=>{
-        // console.log('xxxxx')
-        // console.log(res);
-        // this.notes = res.data
-        // Bus.$emit('update:notes',this.notes)
-        // })
-    
         this.getNotes({ notebookId })
         .then(()=>{
           this.setCurrentNote();
-          console.log(this.currentNote.id);
-          console.log(this.$route.query.noteId);
           if(this.currentNote.id != this.$route.query.noteId){
             this.$router.replace({
               path:'/note',
@@ -120,38 +78,10 @@ export default {
       }
     },
     onaddNote() {
-      console.log(this.currentBook.id)
       this.addNote(
         { notebookId: this.currentBook.id },
         { title: "", content: "" }
       )
-
-      // console.log(this.$route.query.notebookId);
-      //   this.getNotes({ notebookId:this.$route.query.notebookId})
-      //   .then(()=>{
-      //     this.setCurrentNote();
-      //     console.log(this.currentNote.id);
-      //     console.log(this.$route.query.noteId);
-      //     // if(this.currentNote.id != this.$route.query.noteId){
-      //       this.$router.replace({
-      //         path:'/note',
-      //         query:{
-      //           noteId:this.currentNote.id,
-      //           notebookId:this.currentBook.id
-      //         }
-      //       })
-      //     // }
-      //   })
-
-
-      // Notes.addNotes({notebookId:this.currentBook.id},{title:'',content:''})
-      // .then(res=>{
-      //     console.log(res)
-      //      this.notes.unshift(res.data)
-      //   })
-      // .catch(err=>{
-      //   console.log(err);
-      //   })
     },
   },
 };

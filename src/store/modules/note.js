@@ -9,8 +9,6 @@ const state = {
 const getters = {
   notes: state => state.notes || [],
   currentNote: state => {
-    console.log("getters, state.notes");
-    console.log(state.notes);
     let cur;
     if (!Array.isArray(state.notes)) {
       cur = {};
@@ -19,8 +17,6 @@ const getters = {
     } else {
       cur = state.notes.find(note => note.id == state.currentNoteId) || {};
     }
-
-    console.log("currentNote:", cur, state.currentNoteId);
     return cur;
   }
 };

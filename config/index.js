@@ -72,7 +72,7 @@ module.exports = {
       use: {
         loader: 'file-loader',
         options: {
-          name: 'img/[name]_[hash:6].[ext]'
+          name: 'img/[name]_[hash:6].[ext]',
         }
       }
     }

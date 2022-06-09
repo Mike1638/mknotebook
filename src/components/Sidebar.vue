@@ -18,11 +18,9 @@ import Auth  from "@/apis/auth"
 export default {
 methods:{
     onlogout(){
-        console.log('logout');
         Auth.logout()
          .then(data=>{
            this.$router.push({path:'login'})
-           console.log(data)
          })
     }
 },

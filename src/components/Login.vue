@@ -31,9 +31,7 @@
 </template>
 
 <script>
-import Auth  from "@/apis/auth"
-import Bus from "@/helpers/bus"
-import {mapGetters,mapActions} from 'vuex'
+import {mapActions} from 'vuex'
 
 export default {
   data(){
@@ -90,15 +88,6 @@ export default {
        this.register.isError = true
        this.register.notice = '用户名重复'
      })
-    // Auth.register({username:this.register.username,password:this.register.password})
-    // .then(data=>{
-    // this.register.isError = false
-    // this.register.notice = ''
-    // this.$router.push({path:'notebooks'})
-    // }).catch(data=>{
-    //   this.register.isError = true
-    //   this.register.notice = '用户名重复'
-    // })
     },
     onLogin(){
        if(!/^[\w\u4e00-\u9fa5]{3,15}$/.test(this.login.username)){
@@ -117,24 +106,11 @@ export default {
        this.login.isError = false
        this.login.notice = ''
        this.$router.push({path:'notebooks'})
-       console.log('xxxxxxxx'); 
       })
       .catch(data=>{
-        console.log('yyyyy');
         this.login.isError = true
         this.login.notice = data.msg
       })    
-      // Auth.login({username:this.login.username,password:this.login.password})
-      //  .then(data=>{
-      //  this.login.isError = false
-      //  this.login.notice = ''
-      //  Bus.$emit('getinfo',{username:this.login.username})
-      //  this.$router.push({path:'notebooks'}) 
-      //  })
-      //  .catch(data=>{
-      //  this.login.isError = true
-      //  this.login.notice = data.msg
-      //  })
      }
   }
 }
